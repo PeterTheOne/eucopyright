@@ -383,6 +383,29 @@ EUCopyright.loadGuide = function(slug){
   });
 };
 
+EUCopyright.getInputsFromLocalstorage = function() {
+  if (EUCopyright.supports_html5_storage()) {
+    $('textarea').each(function() {
+      var id = $(this).attr('id');
+      var value = localStorage.getItem(id);
+      console.log('get: ' + id + ' ' + value);
+      $(this).val(value);
+    });
+    $('input[type=radio]').each(function() {
+      var name = $(this).attr('name');
+      var value = localStorage.getItem(name);
+      if (value !== null) {
+        $('input[type=radio]#' + name + '-' + value).prop('checked', true);
+      }
+    });
+    $('input[type=text]').each(function() {
+      var id = $(this).attr('id');
+      var value = localStorage.getItem(id);
+      $(this).val(value);
+    });
+  }
+};
+
 $(function(){
   $('.download-document').click(function(e){
     e.preventDefault();
@@ -451,25 +474,9 @@ $(function(){
 
   $('textarea').autogrow();
 
-  if (EUCopyright.supports_html5_storage()) {
-    $('textarea').each(function() {
-      var id = $(this).attr('id');
-      var value = localStorage.getItem(id);
-      $(this).val(value);
-    });
-    $('input[type=radio]').each(function() {
-      var name = $(this).attr('name');
-      var value = localStorage.getItem(name);
-      if (value !== null) {
-        $('input[type=radio]#' + name + '-' + value).prop('checked', true);
-      }
-    });
-    $('input[type=text]').each(function() {
-      var id = $(this).attr('id');
-      var value = localStorage.getItem(id);
-      $(this).val(value);
-    });
+  EUCopyright.getInputsFromLocalstorage();
 
+  if (EUCopyright.supports_html5_storage()) {
     $('textarea').on('keydown change', function() {
       var id = $(this).attr('id');
       var value = $(this).val();

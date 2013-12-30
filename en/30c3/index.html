@@ -104,6 +104,7 @@ function start(btn) {
     $('.download-document').click(function(e){ step() }); // make final button do the right thing
     EUCopyright.loadGuide('crew_30c3');
     step();
+    EUCopyright.getInputsFromLocalstorage();
   } else { // nothing selected
     btn.innerHTML = "Please select a problem above before continuing &raquo;";
   }
